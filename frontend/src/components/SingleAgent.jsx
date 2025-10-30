@@ -5,7 +5,7 @@ const SingleAgent = ({ result, loading }) => {
     return (
       <div style={styles.placeholder}>
         <div style={styles.icon}>🤖</div>
-        <p style={styles.placeholderText}>Single Agent awaiting problem...</p>
+        <p style={styles.placeholderText}>Gemini Agent awaiting problem...</p>
       </div>
     );
   }
@@ -14,37 +14,47 @@ const SingleAgent = ({ result, loading }) => {
     return (
       <div style={styles.container}>
         <div style={styles.header}>
-          <h3 style={styles.title}>Single Agent (Simple Rule-Based)</h3>
+          <h3 style={styles.title}>Single Agent </h3>
           <div style={styles.statusBadge}>Processing...</div>
         </div>
         <div style={styles.loading}>
           <div style={styles.spinner}></div>
-          <p>Thinking...</p>
+          <p>Thinking with Gemini...</p>
         </div>
       </div>
     );
   }
 
   const isCorrect = result.success && !result.error;
-  const headerColor = isCorrect ? '#ef4444' : '#ef4444'; // Red since single agent typically fails
+  const headerColor = isCorrect ? '#34d399' : '#ef4444';
 
   return (
     <div style={styles.container}>
       <div style={{...styles.header, borderLeftColor: headerColor}}>
-        <h3 style={styles.title}>Single Agent (Simple Rule-Based)</h3>
+        <h3 style={styles.title}>Single Agent </h3>
         <div style={{...styles.statusBadge, backgroundColor: headerColor}}>
-          {result.success ? '⚠️ Likely Incorrect' : '❌ Failed'}
+          {result.success ? '✓ Completed' : '❌ Failed'}
         </div>
       </div>
 
       <div style={styles.content}>
-        <div style={styles.answerBox}>
-          <span style={styles.answerLabel}>Final Answer:</span>
-          <span style={styles.answer}>{result.final_answer}</span>
+        <div style={{
+          ...styles.answerBox,
+          backgroundColor: isCorrect ? '#d1fae5' : '#fef2f2',
+          borderColor: isCorrect ? '#6ee7b7' : '#fecaca'
+        }}>
+          <span style={{
+            ...styles.answerLabel,
+            color: isCorrect ? '#065f46' : '#991b1b'
+          }}>Final Answer:</span>
+          <span style={{
+            ...styles.answer,
+            color: isCorrect ? '#059669' : '#dc2626'
+          }}>{result.final_answer}</span>
         </div>
 
         <div style={styles.stepsSection}>
-          <h4 style={styles.stepsTitle}>Internal Reasoning:</h4>
+          <h4 style={styles.stepsTitle}>Gemini Reasoning:</h4>
           <div style={styles.stepsList}>
             {result.reasoning_steps.map((step, idx) => (
               <div key={idx} style={styles.step}>
@@ -113,8 +123,7 @@ const styles = {
     padding: '20px',
   },
   answerBox: {
-    backgroundColor: '#fef2f2',
-    border: '2px solid #fecaca',
+    border: '2px solid',
     borderRadius: '8px',
     padding: '16px',
     marginBottom: '20px',
@@ -124,12 +133,10 @@ const styles = {
   },
   answerLabel: {
     fontWeight: '600',
-    color: '#991b1b',
   },
   answer: {
     fontSize: '24px',
     fontWeight: '700',
-    color: '#dc2626',
   },
   stepsSection: {
     marginBottom: '20px',

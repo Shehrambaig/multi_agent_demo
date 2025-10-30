@@ -4,36 +4,32 @@ import ComparisonView from './components/ComparisonView';
 
 const App = () => {
   const [problem, setProblem] = useState('');
-  const [apiKey, setApiKey] = useState('');
   const [singleResult, setSingleResult] = useState(null);
   const [multiResult, setMultiResult] = useState(null);
   const [singleLoading, setSingleLoading] = useState(false);
   const [multiLoading, setMultiLoading] = useState(false);
   const [error, setError] = useState('');
 
+
+
   const sampleProblems = [
     {
-      text: "Sarah has 15 apples. She gives 3 apples to her friend and then buys 8 more apples from the store. After that, she uses half of her apples to make a pie. How many apples does Sarah have left?",
-      answer: "10 apples"
+      text: "Alice, Ben, and Chloe are counting their stamps.Alice has 3/5 the number of stamps that Ben has.Chloe has 12 fewer stamps than Alice.If Ben were to give Alice 5 stamps, Ben would then have exactly twice as many stamps as Chloe.How many stamps does Chloe have?",
+      answer: "45 stamps"
     },
     {
-      text: "A train travels from City A to City B at 60 mph. The return journey from City B to City A takes 3 hours at 80 mph. What is the total distance of the round trip?",
-      answer: "480 miles"
+      text: "A shipment of books is distributed among three libraries: Central, East, and West.The West library received 40% more books than the East library.The Central library received 15% fewer books than the West library.If the East library received 180 fewer books than the Central library, how many books did the West library receive? (Round your final answer to the nearest whole number, as books must be integers).",
+      answer: "1326 Books"
     },
     {
-      text: "Tom has twice as many marbles as Jerry. Jerry has 5 more marbles than Bobby. If Bobby has 8 marbles, how many marbles do Tom, Jerry, and Bobby have in total?",
-      answer: "47 marbles"
+      text: "A warehouse contains three crates: Alpha, Beta, and Gamma.The sum of the weights of the Alpha and Beta crates is 90% of the weight of the Gamma crate.The Alpha crate is 25% heavier than the Beta crate.If the Gamma crate is 880 kg, what is the weight of the Beta crate?",
+      answer: "352 kg"
     }
   ];
 
   const handleSolve = async () => {
     if (!problem.trim()) {
       setError('Please enter a problem to solve');
-      return;
-    }
-
-    if (!apiKey.trim()) {
-      setError('Please enter your OpenAI API key');
       return;
     }
 
@@ -60,11 +56,11 @@ const App = () => {
         final_answer: 'Error',
         reasoning_steps: [{
           agent: 'System',
-          content: `Error: ${err.message}`,
+          content: `Error: ${err.response?.data?.detail || err.message}`,
           step_number: 1
         }],
         total_steps: 1,
-        error: err.message
+        error: err.response?.data?.detail || err.message
       });
     } finally {
       setSingleLoading(false);
@@ -75,8 +71,7 @@ const App = () => {
     setMultiLoading(true);
     try {
       const response = await axios.post('http://localhost:8000/api/solve/multi', {
-        problem: problem,
-        openai_api_key: apiKey
+        problem: problem
       });
       setMultiResult(response.data);
     } catch (err) {
@@ -105,9 +100,9 @@ const App = () => {
     <div style={styles.app}>
       <div style={styles.container}>
         <header style={styles.header}>
-          <h1 style={styles.title}>🤖 Multi-Agent System Demo</h1>
+          <h1 style={styles.title}>Single VS Multi-Agent System Demo</h1>
           <p style={styles.subtitle}>
-            Compare single-agent vs multi-agent reasoning on complex problems
+            Comparing single agent vs  Multi-Agent reasoning
           </p>
         </header>
 
@@ -126,26 +121,12 @@ const App = () => {
               />
             </div>
 
-            <div style={styles.formGroup}>
-              <label style={styles.label}>OpenAI API Key:</label>
-              <input
-                type="password"
-                style={styles.input}
-                value={apiKey}
-                onChange={(e) => setApiKey(e.target.value)}
-                placeholder="sk-..."
-              />
-              <p style={styles.hint}>
-                Your API key is only used for this session and not stored
-              </p>
-            </div>
-
             <button
               style={styles.solveButton}
               onClick={handleSolve}
               disabled={singleLoading || multiLoading}
             >
-              {(singleLoading || multiLoading) ? 'Solving...' : '🚀 Solve Problem'}
+              {(singleLoading || multiLoading) ? 'Solving...' : ' Solve Problem'}
             </button>
 
             {error && (
@@ -187,9 +168,12 @@ const App = () => {
 
         <footer style={styles.footer}>
           <p>
-            <strong>How it works:</strong> The single agent uses simple rule-based reasoning
-            and will likely fail. The multi-agent system uses two GPT-4 agents that debate
+            <strong>How it works:</strong> The single agent uses no reasoning
+            which may struggle with complex reasoning. The multi-agent system uses two agents that debate
             to reach the correct answer.
+          </p>
+          <p style={{marginTop: '10px', fontSize: '12px'}}>
+            💡 <strong>Note:</strong> All API keys are configured on the server (.env file).
           </p>
         </footer>
       </div>
@@ -258,20 +242,6 @@ const styles = {
     fontFamily: 'inherit',
     resize: 'vertical',
     outline: 'none',
-  },
-  input: {
-    width: '100%',
-    padding: '12px',
-    fontSize: '14px',
-    border: '2px solid #e5e7eb',
-    borderRadius: '8px',
-    fontFamily: 'inherit',
-    outline: 'none',
-  },
-  hint: {
-    fontSize: '12px',
-    color: '#6b7280',
-    marginTop: '6px',
   },
   solveButton: {
     width: '100%',

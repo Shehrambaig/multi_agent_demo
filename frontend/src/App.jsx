@@ -168,8 +168,8 @@ const App = () => {
 
         <footer style={styles.footer}>
           <p>
-            <strong>How it works:</strong> The single agent uses no reasoning
-            which may struggle with complex reasoning. The multi-agent system uses two agents that debate
+            <strong>How it works:</strong> The single agent works alone W/O any input
+            which may cause struggle with complex reasoning. The multi-agent system uses two agents that debate
             to reach the correct answer.
           </p>
           <p style={{marginTop: '10px', fontSize: '12px'}}>

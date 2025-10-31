@@ -86,7 +86,7 @@ const MultiAgent = ({ result, loading }) => {
         </div>
 
         <div style={styles.summary}>
-          <strong>Total Steps:</strong> {result.total_steps} | 
+          <strong>Total Steps:</strong> {result.total_steps} |
           <strong> Debate Rounds:</strong> {Math.ceil(result.total_steps / 3)}
         </div>
       </div>

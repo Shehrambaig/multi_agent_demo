@@ -19,7 +19,7 @@ const SingleAgent = ({ result, loading }) => {
         </div>
         <div style={styles.loading}>
           <div style={styles.spinner}></div>
-          <p>Thinking with Gemini...</p>
+          <p>Thinking...</p>
         </div>
       </div>
     );
@@ -54,7 +54,7 @@ const SingleAgent = ({ result, loading }) => {
         </div>
 
         <div style={styles.stepsSection}>
-          <h4 style={styles.stepsTitle}>Gemini Reasoning:</h4>
+          <h4 style={styles.stepsTitle}>SingleAgent Reasoning:</h4>
           <div style={styles.stepsList}>
             {result.reasoning_steps.map((step, idx) => (
               <div key={idx} style={styles.step}>

@@ -20,7 +20,6 @@ services:
   - type: web
     name: multi-agent-frontend
     runtime: static
-    region: oregon
     plan: free
     branch: main
     rootDir: frontend

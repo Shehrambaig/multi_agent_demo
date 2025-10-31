@@ -45,7 +45,7 @@ const App = () => {
   const solveSingleAgent = async () => {
     setSingleLoading(true);
     try {
-      const response = await axios.post('http://localhost:10000/api/solve/single', {
+      const response = await axios.post('https://multi-agent-backend-3c4o.onrender.com/api/solve/single', {
         problem: problem
       });
       setSingleResult(response.data);
@@ -70,7 +70,7 @@ const App = () => {
   const solveMultiAgent = async () => {
     setMultiLoading(true);
     try {
-      const response = await axios.post('http://localhost:10000/api/solve/multi', {
+      const response = await axios.post('https://multi-agent-backend-3c4o.onrender.com/api/solve/multi', {
         problem: problem
       });
       setMultiResult(response.data);

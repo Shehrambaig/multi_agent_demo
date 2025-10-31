@@ -3,7 +3,6 @@ services:
   - type: web
     name: multi-agent-backend
     runtime: python
-    region: oregon
     plan: free
     branch: main
     rootDir: backend
